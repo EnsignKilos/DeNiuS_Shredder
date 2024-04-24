@@ -1,4 +1,4 @@
-public class DNSListFileReader
+public class DNSListLoader
 {
     public ImmutableHashSet<string>? FileHashSet { get; private set; }
     public ConcurrentQueue<string>? FileQueue { get; private set; }
@@ -39,4 +39,4 @@ public class DNSListFileReader
         ConcurrentQueue<string> lines = new ConcurrentQueue<string>(Entries);
         return FileQueue = lines;
     }
-}
+} 
