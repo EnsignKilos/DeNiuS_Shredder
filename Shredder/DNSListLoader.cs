@@ -2,13 +2,11 @@ class DNSListLoader
 {
     public ImmutableHashSet<string>? FileHashSet { get; private set; }
     public ConcurrentQueue<string>? FileQueue { get; private set; }
-
     public ConcurrentQueue<string> LoadFile(string filePath)
     {
         FileHashSet = CreateFileHashSet(filePath);
         return CreateMultithreadedQueue(FileHashSet);
     }
-
     private ImmutableHashSet<string> CreateFileHashSet(string filePath)
     {
         var builder = ImmutableHashSet.CreateBuilder<string>();
@@ -31,7 +29,6 @@ class DNSListLoader
         }
         return builder.ToImmutable();
     }
-
     private ConcurrentQueue<string> CreateMultithreadedQueue(ImmutableHashSet<string> Entries)
     {
         ConcurrentQueue<string> lines = new(Entries);
