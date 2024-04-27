@@ -1,7 +1,7 @@
 class RegexStrings
 {
-    public static readonly List<GeneratedRegexAttributeAttribute> Azure = new()
-    {
+    public static readonly List<GeneratedRegexAttribute> Azure =
+    [
         new GeneratedRegexAttribute(@"\.aadrm\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.ajax\.aspnetcdn\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.aka\.ms$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
@@ -90,9 +90,8 @@ class RegexStrings
         new GeneratedRegexAttribute(@"\.wus-www\.sway-extensions\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.yammer\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.yammerusercontent\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
-    };
-    public static readonly List<GeneratedRegexAttribute> GCP = new()
-    {
+    ];
+    public static readonly List<GeneratedRegexAttribute> GCP = [
         new GeneratedRegexAttribute(@"\.appspot\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.assets\.onestore\.ms$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.cloudfunctions\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
@@ -107,10 +106,11 @@ class RegexStrings
         new GeneratedRegexAttribute(@"\.withgoogle\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.withyoutube\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.youtube\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
-        new GeneratedRegexAttribute(@"\.ytimg\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
-    };
-    public static readonly List<GeneratedRegexAttribute> PaaSProviders = new()
-    {
+        new GeneratedRegexAttribute(@"\.ytimg\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft)
+    ];
+
+    public static readonly List<GeneratedRegexAttribute> PaaSProviders =
+    [
         new GeneratedRegexAttribute(@"\.000webhostapp\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.acompli\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.adobeaemcloud\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
@@ -170,9 +170,9 @@ class RegexStrings
         new GeneratedRegexAttribute(@"\.travis-ci\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.vercel\.app$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.zoho\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft)
-    };
-    public static readonly List<GeneratedRegexAttribute> CDNs = new()
-    {
+    ];
+    public static readonly List<GeneratedRegexAttribute> CDNs =
+    [
         new GeneratedRegexAttribute(@"\.akamai-staging\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.akamai\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.akamaiedge-staging\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
@@ -221,5 +221,6 @@ class RegexStrings
         new GeneratedRegexAttribute(@"\.yahooapis\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.yimg\.", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
         new GeneratedRegexAttribute(@"\.yottaa\.net$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft),
-};
+        new GeneratedRegexAttribute(@"\.ytimg\.com$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft)
+    ];
 }
