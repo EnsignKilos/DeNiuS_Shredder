@@ -14,11 +14,18 @@ class DNSListSiftDomains
         CloudProviderDomains = [];
         CDNDomains = [];
 
+        var regexStrings = RegexStrings.Instance;
+        List<GeneratedRegexAttribute> gcp = regexStrings.GCP;
+        List<GeneratedRegexAttribute> aws = regexStrings.AWSService;
+        List<GeneratedRegexAttribute> awsregion = regexStrings.AWSRegion;
+        List<GeneratedRegexAttribute> azure = regexStrings.AzureOrMicrosoft;
+        List<GeneratedRegexAttribute> cdn = regexStrings.CDNs;
+
         await Task.Run(() =>
         {
             while (siftingqueue.TryDequeue(out string? dnsentryitem))
             {
-                foreach (var regex in RegexStrings)
+                foreach (var regex in regexStrings.AzureOrMicrosoft)
                 {
                     if (regex.IsMatch(dnsentryitem))
                     {

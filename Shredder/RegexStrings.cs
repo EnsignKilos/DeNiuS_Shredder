@@ -6,6 +6,8 @@ class RegexStrings
     public List<GeneratedRegexAttribute> GCP { get; private set; }
     public List<GeneratedRegexAttribute> PaaSProviders { get; private set; }
     public List<GeneratedRegexAttribute> CDNs { get; private set; }
+    private static readonly object padlock = new();
+    private static RegexStrings? _instance;
     private RegexStrings()
     {
         AzureOrMicrosoft = GenerateRegexes(AzureOrMicrosoftDomainsList);
@@ -14,6 +16,20 @@ class RegexStrings
         GCP = GenerateRegexes(GCPDomainsList);
         PaaSProviders = GenerateRegexes(PaaSProvidersDomainsList);
         CDNs = GenerateRegexes(CDNDomainsList);
+    }
+    public static RegexStrings Instance
+    {
+        get
+        {
+            lock (padlock)
+            {
+                if (_instance == null)
+                {
+                    _instance = new RegexStrings();
+                }
+                return _instance;
+            }
+        }
     }
     private static List<GeneratedRegexAttribute> GenerateRegexes(List<string> patterns)
     {
@@ -109,7 +125,6 @@ class RegexStrings
         @"\.tse1\.mm\.bing\.net$",
         @"\.visualstudio\.com$",
         @"\.vo\.msecnd\.net$",
-        @"\.vo\.msecnd\.net$",
         @"\.windows\.net$",
         @"\.wpengine\.com$",
         @"\.wus-www\.sway-cdn\.com$",
@@ -150,37 +165,37 @@ class RegexStrings
     ];
     private static readonly List<string> AWSRegionDomainsList =
     [
-        @"af-south-1.$",
-        @"ap-east-1.$",
-        @"ap-northeast-1.$",
-        @"ap-northeast-2.$",
-        @"ap-northeast-3.$",
-        @"ap-south-1.$",
-        @"ap-south-2.$",
-        @"ap-southeast-1.$",
-        @"ap-southeast-2.$",
-        @"ap-southeast-3.$",
-        @"ap-southeast-4.$",
-        @"ca-central-1.$",
-        @"ca-west-1.$",
-        @"eu-central-1.$",
-        @"eu-central-2.$",
-        @"eu-north-1.$",
-        @"eu-south-1.$",
-        @"eu-south-2.$",
-        @"eu-west-1.$",
-        @"eu-west-2.$",
-        @"eu-west-3.$",
-        @"il-central-1.$",
-        @"me-central-1.$",
-        @"me-south-1.$",
-        @"sa-east-1.$",
-        @"us-east-1.$",
-        @"us-east-2.$",
-        @"us-gov-east-1.$",
-        @"us-gov-west-1.$",
-        @"us-west-1.$",
-        @"us-west-2.$"
+        @"\.af-south-1\.",
+        @"\.ap-east-1\.",
+        @"\.ap-northeast-1\.",
+        @"\.ap-northeast-2\.",
+        @"\.ap-northeast-3\.",
+        @"\.ap-south-1\.",
+        @"\.ap-south-2\.",
+        @"\.ap-southeast-1\.",
+        @"\.ap-southeast-2\.",
+        @"\.ap-southeast-3\.",
+        @"\.ap-southeast-4\.",
+        @"\.ca-central-1\.",
+        @"\.ca-west-1\.",
+        @"\.eu-central-1\.",
+        @"\.eu-central-2\.",
+        @"\.eu-north-1\.",
+        @"\.eu-south-1\.",
+        @"\.eu-south-2\.",
+        @"\.eu-west-1\.",
+        @"\.eu-west-2\.",
+        @"\.eu-west-3\.",
+        @"\.il-central-1\.",
+        @"\.me-central-1\.",
+        @"\.me-south-1\.",
+        @"\.sa-east-1\.",
+        @"\.us-east-1\.",
+        @"\.us-east-2\.",
+        @"\.us-gov-east-1\.",
+        @"\.us-gov-west-1\.",
+        @"\.us-west-1\.",
+        @"\.us-west-2\."
     ];
     private static readonly List<string> GCPDomainsList =
     [
