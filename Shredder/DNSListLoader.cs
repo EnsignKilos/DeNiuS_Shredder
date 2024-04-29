@@ -24,7 +24,7 @@ class DNSListLoader
             string? line;
             while ((line = reader.ReadLine()) != null)
             {
-                builder.Add(line);
+                builder.Add(line.ToLowerInvariant());
             }
         }
         return builder.ToImmutable();

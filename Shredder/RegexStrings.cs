@@ -37,7 +37,7 @@ class RegexStrings
 
         Parallel.ForEach(patterns, item =>
         {
-            regexes.Add(new GeneratedRegexAttribute(item, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.RightToLeft));
+            regexes.Add(new GeneratedRegexAttribute(item, RegexOptions.CultureInvariant | RegexOptions.RightToLeft));
         });
 
         return regexes;

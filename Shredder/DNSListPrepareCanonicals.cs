@@ -2,43 +2,45 @@ class DNSListSiftDomains
 {
     public HashSet<string> CanonicalNames { get; private set; }
     public HashSet<string> TopLevelDomains { get; private set; }
-    public HashSet<string> ServiceProviderDomains { get; private set; }
-    public HashSet<string> CloudProviderDomains { get; private set; }
+    public HashSet<string> SaaSProviderDomains { get; private set; }
+    public HashSet<string> AWSDomains { get; private set; }
+    public HashSet<string> AzureOrMicrosoftDomains { get; private set; }
     public HashSet<string> CDNDomains { get; private set; }
 
     public async Task SiftDomains(ConcurrentQueue<string> siftingqueue)
     {
         CanonicalNames = [];
         TopLevelDomains = [];
-        ServiceProviderDomains = [];
-        CloudProviderDomains = [];
+        SaaSProviderDomains = [];
+        AWSDomains = [];
+        AzureOrMicrosoftDomains = [];
         CDNDomains = [];
 
         var regexStrings = RegexStrings.Instance;
-        List<GeneratedRegexAttribute> gcp = regexStrings.GCP;
-        List<GeneratedRegexAttribute> aws = regexStrings.AWSService;
-        List<GeneratedRegexAttribute> awsregion = regexStrings.AWSRegion;
-        List<GeneratedRegexAttribute> azure = regexStrings.AzureOrMicrosoft;
-        List<GeneratedRegexAttribute> cdn = regexStrings.CDNs;
+
+
 
         await Task.Run(() =>
         {
             while (siftingqueue.TryDequeue(out string? dnsentryitem))
             {
-                foreach (var regex in regexStrings.AzureOrMicrosoft)
+                var match = string.Empty;
+                var match2 = string.Empty;
+                var canonicalname = string.Empty;
+                var topleveldomain = string.Empty;
+
+                Parallel.ForEach(regexStrings.CDNs, (regexstring) =>
                 {
-                    if (regex.IsMatch(dnsentryitem))
+                    var regex = new Regex(regexstring.Pattern);
+                    var match = regex.Match(dnsentryitem);
+                    if (match.Success)
                     {
-                        // Add to matching part
-                        // Example: CanonicalNames.Add(dnsentryitem);
+                        canonicalname = match.Groups[1].Value;
+                        topleveldomain = match.Groups[2].Value;
                     }
-                    else
-                    {
-                        // Add to non-matching part
-                        // Example: TopLevelDomains.Add(dnsentryitem);
-                    }
-                }
+                });
             }
-        });
+        }
+                );
     }
-}
+};
