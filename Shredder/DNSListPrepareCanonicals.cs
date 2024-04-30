@@ -9,38 +9,77 @@ class DNSListSiftDomains
 
     public async Task SiftDomains(ConcurrentQueue<string> siftingqueue)
     {
-        CanonicalNames = [];
-        TopLevelDomains = [];
-        SaaSProviderDomains = [];
-        AWSDomains = [];
-        AzureOrMicrosoftDomains = [];
-        CDNDomains = [];
-
         var regexStrings = RegexStrings.Instance;
-
-
 
         await Task.Run(() =>
         {
             while (siftingqueue.TryDequeue(out string? dnsentryitem))
             {
-                var match = string.Empty;
-                var match2 = string.Empty;
-                var canonicalname = string.Empty;
-                var topleveldomain = string.Empty;
+                ConcurrentBag<string> AWSService = [];
+                ConcurrentBag<string> AWSRegion = [];
+                ConcurrentBag<string> PaaSProviders = [];
+                ConcurrentBag<string> CDN = [];
+                ConcurrentBag<string> AzureOrMicrosoft = [];
+                ConcurrentBag<string> CanonicalNames = [];
+                ConcurrentBag<string> TopLevelDomain = [];
+
+                Parallel.ForEach(regexStrings.PaaSProviders, (regexstring) =>
+                {
+                    var regex = new Regex(regexstring.Pattern);
+                    var match = regex.Split(dnsentryitem);
+                    if (match.Length > 1)
+                    {
+                        CanonicalNames.Add(match[1]);
+                        PaaSProviders.Add(match[2]);
+                    }
+                });
 
                 Parallel.ForEach(regexStrings.CDNs, (regexstring) =>
                 {
                     var regex = new Regex(regexstring.Pattern);
-                    var match = regex.Match(dnsentryitem);
-                    if (match.Success)
+                    var match = regex.Split(dnsentryitem);
+                    if (match.Length > 1)
                     {
-                        canonicalname = match.Groups[1].Value;
-                        topleveldomain = match.Groups[2].Value;
+                        CanonicalNames.Add(match[1]);
+                        CDN.Add(match[2]);
+                    }
+                });
+
+                Parallel.ForEach(regexStrings.AzureOrMicrosoft, (regexstring) =>
+                {
+                    var regex = new Regex(regexstring.Pattern);
+                    var match = regex.Split(dnsentryitem);
+                    if (match.Length > 1)
+                    {
+                        CanonicalNames.Add(match[1]);
+                        AzureOrMicrosoft.Add(match[2]);
+                    }
+                });
+
+                Parallel.ForEach(regexStrings.AWSService, (regexstring) =>
+                {
+                    var regex = new Regex(regexstring.Pattern);
+                    var match = regex.Split(dnsentryitem);
+                    if (match.Length > 1)
+                    {
+                        CanonicalNames.Add(match[1]);
+                        AWSService.Add(match[2]);
+                    }
+                });
+
+                Parallel.ForEach(regexStrings.AWSRegion, (regexstring) =>
+                {
+                    var regex = new Regex(regexstring.Pattern);
+                    var match = regex.Split(dnsentryitem);
+                    if (match.Length > 1)
+                    {
+                        CanonicalNames.Add(match[1]);
+                        AWSRegion.Add(match[2]);
                     }
                 });
             }
         }
                 );
+
     }
 };
