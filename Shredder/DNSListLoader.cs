@@ -34,4 +34,4 @@ class DNSListLoader
         ConcurrentQueue<string> lines = new(Entries);
         return FileQueue = lines;
     }
-} 
+}

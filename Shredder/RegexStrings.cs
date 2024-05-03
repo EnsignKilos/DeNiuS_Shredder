@@ -1,47 +1,46 @@
 class RegexStrings
 {
-    public List<GeneratedRegexAttribute> GenRegexListAzureOrMicrosoft { get; private set; }
-    public List<GeneratedRegexAttribute> GenRegexListAWSService { get; private set; }
-    public List<GeneratedRegexAttribute> GenRegexListAWSRegion { get; private set; }
-    public List<GeneratedRegexAttribute> GenRegexListGCP { get; private set; }
-    public List<GeneratedRegexAttribute> GenRegexListPaaSProviders { get; private set; }
-    public List<GeneratedRegexAttribute> GenRegexListCDNs { get; private set; }
-    private static readonly object padlock = new();
-    private static RegexStrings? _instance;
-    private RegexStrings()
+    public static List<Regex>? AzureOrMicrosoftRegexList { get; private set;}
+    public static List<Regex>? AWSServiceRegexList { get; private set;}
+    public static List<Regex>? AWSRegionRegexList { get; private set;}
+    public static List<Regex>? GCPRegexList { get; private set;}
+    public static List<Regex>? PaaSProvidersRegexList { get; private set;}
+    public static List<Regex>? CDNsRegexList { get; private set;}
+
+    public RegexStrings()
     {
-        GenRegexListAzureOrMicrosoft = GenerateRegexes(AzureOrMicrosoftDomainsList);
-        GenRegexListAWSService = GenerateRegexes(AWSServiceDomainsList);
-        GenRegexListAWSRegion = GenerateRegexes(AWSRegionDomainsList);
-        GenRegexListGCP = GenerateRegexes(GCPDomainsList);
-        GenRegexListPaaSProviders = GenerateRegexes(PaaSProvidersDomainsList);
-        GenRegexListCDNs = GenerateRegexes(CDNDomainsList);
+        AzureOrMicrosoftRegexList = GenerateRegexList(GenerateRegexAttributes(AzureOrMicrosoftDomainsList ?? []));
+        AWSServiceRegexList = GenerateRegexList(GenerateRegexAttributes(AWSServiceDomainsList ?? []));
+        AWSRegionRegexList = GenerateRegexList(GenerateRegexAttributes(AWSRegionDomainsList ?? []));
+        GCPRegexList = GenerateRegexList(GenerateRegexAttributes(GCPDomainsList ?? []));
+        PaaSProvidersRegexList = GenerateRegexList(GenerateRegexAttributes(PaaSProvidersDomainsList ?? []));
+        CDNsRegexList = GenerateRegexList(GenerateRegexAttributes(CDNDomainsList ?? []));
     }
-    public static RegexStrings Instance
+
+    private static List<GeneratedRegexAttribute> GenerateRegexAttributes(List<string> regexAttributeList)
     {
-        get
+        List<GeneratedRegexAttribute> localRegexAttributeList = [];
+
+        foreach (string regexPattern in regexAttributeList)
         {
-            lock (padlock)
-            {
-                if (_instance == null)
-                {
-                    _instance = new RegexStrings();
-                }
-                return _instance;
-            }
+            localRegexAttributeList.Add(new GeneratedRegexAttribute(regexPattern, RegexOptions.CultureInvariant | RegexOptions.RightToLeft));
         }
+
+        return localRegexAttributeList;
     }
-    private static List<GeneratedRegexAttribute> GenerateRegexes(List<string> patterns)
+
+    private static List<Regex> GenerateRegexList(List<GeneratedRegexAttribute> regexAttributeList)
     {
-        List<GeneratedRegexAttribute> regexes = [];
+        List<Regex> compiledRegexList = [];
 
-        Parallel.ForEach(patterns, item =>
+        foreach (GeneratedRegexAttribute generatedAttribute in regexAttributeList)
         {
-            regexes.Add(new GeneratedRegexAttribute(item, RegexOptions.CultureInvariant | RegexOptions.RightToLeft));
-        });
+            compiledRegexList.Add(new Regex(generatedAttribute.Pattern, generatedAttribute.Options));
+        }
 
-        return regexes;
+        return compiledRegexList;
     }
+
     private static readonly List<string> AzureOrMicrosoftDomainsList =
     [
         @"\.aadrm\.com$",
@@ -134,68 +133,68 @@ class RegexStrings
     ];
     private static readonly List<string> AWSServiceDomainsList =
     [
-        @"amazonaws\.com$",
-        @"amazonaws\.com\.cn$",
-        @"amazoncognito\.com$",
-        @"api\.aws$",
-        @"awsapps\.com$",
-        @"awscloud\.com$",
-        @"awscloudfront\.com$",
-        @"awsdns\.com$",
-        @"awsedge\.com$",
-        @"awseducate\.com$",
-        @"awsglobalaccelerator\.com$",
-        @"awsmp\.com$",
-        @"awspersonalize\.com$",
-        @"awsstatic\.com$",
-        @"awsstepfunctions\.com$",
-        @"cloudfront\.net$",
-        @"cloudfunctions\.net$",
-        @"elasticbeanstalk\.com$",
-        @"sagemaker\.aws$",
-        @"sagemaker\.com\.cn$",
-        @"autoscaling\.amazonaws\.com$",
-        @"autoscaling\.api\.aws$",
-        @"ec2\.amazonaws\.com$",
-        @"ec2\.api\.aws$",
-        @"elasticmapreduce\.amazonaws\.com$",
-        @"elasticmapreduce\.api\.aws$",
-        @"elb\.amazonaws\.com$",
-        @"elb\.api\.aws$"
+        @"\.amazonaws\.com$",
+        @"\.amazonaws\.com\.cn$",
+        @"\.amazoncognito\.com$",
+        @"\.api\.aws$",
+        @"\.awsapps\.com$",
+        @"\.awscloud\.com$",
+        @"\.awscloudfront\.com$",
+        @"\.awsdns\.com$",
+        @"\.awsedge\.com$",
+        @"\.awseducate\.com$",
+        @"\.awsglobalaccelerator\.com$",
+        @"\.awsmp\.com$",
+        @"\.awspersonalize\.com$",
+        @"\.awsstatic\.com$",
+        @"\.awsstepfunctions\.com$",
+        @"\.cloudfront\.net$",
+        @"\.cloudfunctions\.net$",
+        @"\.elasticbeanstalk\.com$",
+        @"\.sagemaker\.aws$",
+        @"\.sagemaker\.com\.cn$",
+        @"\.autoscaling\.amazonaws\.com$",
+        @"\.autoscaling\.api\.aws$",
+        @"\.ec2\.amazonaws\.com$",
+        @"\.ec2\.api\.aws$",
+        @"\.elasticmapreduce\.amazonaws\.com$",
+        @"\.elasticmapreduce\.api\.aws$",
+        @"\.elb\.amazonaws\.com$",
+        @"\.elb\.api\.aws$"
     ];
     private static readonly List<string> AWSRegionDomainsList =
     [
-        @"\.af-south-1\.",
-        @"\.ap-east-1\.",
-        @"\.ap-northeast-1\.",
-        @"\.ap-northeast-2\.",
-        @"\.ap-northeast-3\.",
-        @"\.ap-south-1\.",
-        @"\.ap-south-2\.",
-        @"\.ap-southeast-1\.",
-        @"\.ap-southeast-2\.",
-        @"\.ap-southeast-3\.",
-        @"\.ap-southeast-4\.",
-        @"\.ca-central-1\.",
-        @"\.ca-west-1\.",
-        @"\.eu-central-1\.",
-        @"\.eu-central-2\.",
-        @"\.eu-north-1\.",
-        @"\.eu-south-1\.",
-        @"\.eu-south-2\.",
-        @"\.eu-west-1\.",
-        @"\.eu-west-2\.",
-        @"\.eu-west-3\.",
-        @"\.il-central-1\.",
-        @"\.me-central-1\.",
-        @"\.me-south-1\.",
-        @"\.sa-east-1\.",
-        @"\.us-east-1\.",
-        @"\.us-east-2\.",
-        @"\.us-gov-east-1\.",
-        @"\.us-gov-west-1\.",
-        @"\.us-west-1\.",
-        @"\.us-west-2\."
+        @"\.af-south-1",
+        @"\.ap-east-1",
+        @"\.ap-northeast-1",
+        @"\.ap-northeast-2",
+        @"\.ap-northeast-3",
+        @"\.ap-south-1",
+        @"\.ap-south-2",
+        @"\.ap-southeast-1",
+        @"\.ap-southeast-2",
+        @"\.ap-southeast-3",
+        @"\.ap-southeast-4",
+        @"\.ca-central-1",
+        @"\.ca-west-1",
+        @"\.eu-central-1",
+        @"\.eu-central-2",
+        @"\.eu-north-1",
+        @"\.eu-south-1",
+        @"\.eu-south-2",
+        @"\.eu-west-1",
+        @"\.eu-west-2",
+        @"\.eu-west-3",
+        @"\.il-central-1",
+        @"\.me-central-1",
+        @"\.me-south-1",
+        @"\.sa-east-1",
+        @"\.us-east-1",
+        @"\.us-east-2",
+        @"\.us-gov-east-1",
+        @"\.us-gov-west-1",
+        @"\.us-west-1",
+        @"\.us-west-2"
     ];
     private static readonly List<string> GCPDomainsList =
     [
