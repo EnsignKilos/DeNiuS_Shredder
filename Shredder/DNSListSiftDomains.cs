@@ -7,23 +7,13 @@ class DNSListSiftDomains
     public HashSet<string>? SiftedAzureOrMicrosoftDomains { get; private set; }
     public HashSet<string>? SiftedCDNDomains { get; private set; }
 
-    public DNSListSiftDomains(ConcurrentQueue<string> siftingQueue)
+    public DNSListSiftDomains(ImmutableHashSet<string> loadedDNSFileHashset)
     {
-        SiftedCanonicalNames = new HashSet<string>();
-        SiftedTopLevelDomains = new HashSet<string>();
-        SiftedPaaSProviderDomains = new HashSet<string>();
-        SiftedAWSDomains = new HashSet<string>();
-        SiftedAzureOrMicrosoftDomains = new HashSet<string>();
-        SiftedCDNDomains = new HashSet<string>();
-        SiftDomains(siftingQueue);
-    }
-
-    private void SiftDomains(ConcurrentQueue<string> siftingQueue)
-    {
-        
-        while (siftingQueue.TryDequeue(out string? queueitem))
-        {
-            
-        }
+        SiftedCanonicalNames = [];
+        SiftedTopLevelDomains = [];
+        SiftedPaaSProviderDomains = [];
+        SiftedAWSDomains = [];
+        SiftedAzureOrMicrosoftDomains = [];
+        SiftedCDNDomains = [];
     }
 };
