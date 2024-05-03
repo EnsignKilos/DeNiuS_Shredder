@@ -1,21 +1,21 @@
 class RegexStrings
 {
-    public List<GeneratedRegexAttribute> AzureOrMicrosoft { get; private set; }
-    public List<GeneratedRegexAttribute> AWSService { get; private set; }
-    public List<GeneratedRegexAttribute> AWSRegion { get; private set; }
-    public List<GeneratedRegexAttribute> GCP { get; private set; }
-    public List<GeneratedRegexAttribute> PaaSProviders { get; private set; }
-    public List<GeneratedRegexAttribute> CDNs { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListAzureOrMicrosoft { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListAWSService { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListAWSRegion { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListGCP { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListPaaSProviders { get; private set; }
+    public List<GeneratedRegexAttribute> GenRegexListCDNs { get; private set; }
     private static readonly object padlock = new();
     private static RegexStrings? _instance;
     private RegexStrings()
     {
-        AzureOrMicrosoft = GenerateRegexes(AzureOrMicrosoftDomainsList);
-        AWSService = GenerateRegexes(AWSServiceDomainsList);
-        AWSRegion = GenerateRegexes(AWSRegionDomainsList);
-        GCP = GenerateRegexes(GCPDomainsList);
-        PaaSProviders = GenerateRegexes(PaaSProvidersDomainsList);
-        CDNs = GenerateRegexes(CDNDomainsList);
+        GenRegexListAzureOrMicrosoft = GenerateRegexes(AzureOrMicrosoftDomainsList);
+        GenRegexListAWSService = GenerateRegexes(AWSServiceDomainsList);
+        GenRegexListAWSRegion = GenerateRegexes(AWSRegionDomainsList);
+        GenRegexListGCP = GenerateRegexes(GCPDomainsList);
+        GenRegexListPaaSProviders = GenerateRegexes(PaaSProvidersDomainsList);
+        GenRegexListCDNs = GenerateRegexes(CDNDomainsList);
     }
     public static RegexStrings Instance
     {
