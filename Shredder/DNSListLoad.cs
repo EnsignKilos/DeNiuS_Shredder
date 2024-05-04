@@ -1,27 +1,47 @@
-class DNSListLoad(string filePath)
+class DNSListLoad(string dnsFQDNFilePath)
 {
-    public ImmutableHashSet<string>? FileHashSet { get; private set; } = CreateFileHashSet(filePath);
+    public ImmutableHashSet<string> FileImmutableHashSet { get; private set; } = CreateFileHashSet(dnsFQDNFilePath);
 
-    private static ImmutableHashSet<string> CreateFileHashSet(string filePath)
+    private static ImmutableHashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
     {
         var builder = ImmutableHashSet.CreateBuilder<string>();
-        if (!File.Exists(filePath))
+        try 
         {
-            throw new FileNotFoundException("File not found", filePath);
-        }
-        else if (new FileInfo(filePath).Length == 0)
-        {
-            throw new FileNotFoundException("File is empty", filePath);
-        }
-        else
-        {
-            using StreamReader reader = new(filePath);
             string? line;
+            using StreamReader reader = new(dnsFQDNFilePath);
             while ((line = reader.ReadLine()) != null)
             {
                 builder.Add(line.ToLowerInvariant());
             }
         }
-        return builder.ToImmutable();
+        
+        catch (DirectoryNotFoundException)
+        {
+            Console.WriteLine("Directory Not Found");
+            throw new DNSListLoadException();
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("File Does Not Exist"); 
+            throw new DNSListLoadException();
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Path Too Long");
+            throw new DNSListLoadException();
+
+        }
+        catch (OutOfMemoryException)
+        {
+            Console.WriteLine("Download more WAM");
+            throw new DNSListLoadException();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load {dnsFQDNFilePath} - {ex.Message}");
+            throw new DNSListLoadException();
+        }       
+        return builder.ToImmutableHashSet();
     }
 }

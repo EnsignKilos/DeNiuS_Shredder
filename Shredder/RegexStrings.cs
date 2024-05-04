@@ -1,25 +1,27 @@
-class RegexStrings
+static class RegexStrings
 {
-    public static List<Regex>? AzureOrMicrosoftRegexList { get; private set;}
-    public static List<Regex>? AWSServiceRegexList { get; private set;}
-    public static List<Regex>? AWSRegionRegexList { get; private set;}
-    public static List<Regex>? GCPRegexList { get; private set;}
-    public static List<Regex>? PaaSProvidersRegexList { get; private set;}
-    public static List<Regex>? CDNsRegexList { get; private set;}
+    //TODO - Change the getter and setter so that these objects are created by default ( or directly, using '=' ) and get rid of constructor.
+    public static List<Regex> AzureOrMicrosoftRegexList { get; private set; }
+    public static List<Regex> AWSServiceRegexList { get; private set; }
+    public static List<Regex> AWSRegionRegexList { get; private set; }
+    public static List<Regex> GCPRegexList { get; private set; }
+    public static List<Regex> PaaSProvidersRegexList { get; private set; }
+    public static List<Regex> CDNsRegexList { get; private set; }
 
     public RegexStrings()
     {
-        AzureOrMicrosoftRegexList = GenerateRegexList(GenerateRegexAttributes(AzureOrMicrosoftDomainsList ?? []));
-        AWSServiceRegexList = GenerateRegexList(GenerateRegexAttributes(AWSServiceDomainsList ?? []));
-        AWSRegionRegexList = GenerateRegexList(GenerateRegexAttributes(AWSRegionDomainsList ?? []));
-        GCPRegexList = GenerateRegexList(GenerateRegexAttributes(GCPDomainsList ?? []));
-        PaaSProvidersRegexList = GenerateRegexList(GenerateRegexAttributes(PaaSProvidersDomainsList ?? []));
-        CDNsRegexList = GenerateRegexList(GenerateRegexAttributes(CDNDomainsList ?? []));
+        AzureOrMicrosoftRegexList = GenerateRegexList(GenerateRegexAttributes(AzureOrMicrosoftDomainsList));
+        AWSServiceRegexList = GenerateRegexList(GenerateRegexAttributes(AWSServiceDomainsList));
+        AWSRegionRegexList = GenerateRegexList(GenerateRegexAttributes(AWSRegionDomainsList));
+        GCPRegexList = GenerateRegexList(GenerateRegexAttributes(GCPDomainsList));
+        PaaSProvidersRegexList = GenerateRegexList(GenerateRegexAttributes(PaaSProvidersDomainsList));
+        CDNsRegexList = GenerateRegexList(GenerateRegexAttributes(CDNDomainsList));
     }
 
+    // TODO - Change to use generated attributes, then do the regex split on that speciufically and only - call regex.split(stringtosearch, regattributeitem) for it so that it's cached.
     private static List<GeneratedRegexAttribute> GenerateRegexAttributes(List<string> regexAttributeList)
     {
-        List<GeneratedRegexAttribute> localRegexAttributeList = [];
+        List<GeneratedRegexAttribute> localRegexAttributeList = new List<GeneratedRegexAttribute>();
 
         foreach (string regexPattern in regexAttributeList)
         {
@@ -31,16 +33,17 @@ class RegexStrings
 
     private static List<Regex> GenerateRegexList(List<GeneratedRegexAttribute> regexAttributeList)
     {
-        List<Regex> compiledRegexList = [];
+        List<Regex> localCompiledRegexList = new List<Regex>();
 
         foreach (GeneratedRegexAttribute generatedAttribute in regexAttributeList)
         {
-            compiledRegexList.Add(new Regex(generatedAttribute.Pattern, generatedAttribute.Options));
+            localCompiledRegexList.Add(new Regex(generatedAttribute.Pattern, generatedAttribute.Options));
         }
 
-        return compiledRegexList;
+        return localCompiledRegexList;
     }
 
+    //TODO - Move these to the start of the file (treat them as variables, in effect) and condense so that multiples are on each line (visual clairty).
     private static readonly List<string> AzureOrMicrosoftDomainsList =
     [
         @"\.aadrm\.com$",
