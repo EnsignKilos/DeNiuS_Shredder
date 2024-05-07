@@ -4,7 +4,8 @@ class DNSListLoad(string dnsFQDNFilePath)
 
     private static ImmutableHashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
     {
-        var builder = ImmutableHashSet.CreateBuilder<string>();
+        ImmutableHashSet<string>.Builder builder = ImmutableHashSet.CreateBuilder<string>();
+        
         try 
         {
             string? line;
@@ -20,28 +21,33 @@ class DNSListLoad(string dnsFQDNFilePath)
             Console.WriteLine("Directory Not Found");
             throw new DNSListLoadException();
         }
+        
         catch (FileNotFoundException)
         {
-            Console.WriteLine("File Does Not Exist"); 
+            Console.WriteLine("File Doesn't Exist"); 
             throw new DNSListLoadException();
         }
+        
         catch (PathTooLongException)
         {
             Console.WriteLine("Path Too Long");
             throw new DNSListLoadException();
 
         }
+        
         catch (OutOfMemoryException)
         {
             Console.WriteLine("Download more WAM");
             throw new DNSListLoadException();
 
         }
+        
         catch (Exception ex)
         {
             Console.WriteLine($"Failed to load {dnsFQDNFilePath} - {ex.Message}");
             throw new DNSListLoadException();
         }       
+        
         return builder.ToImmutableHashSet();
     }
 }

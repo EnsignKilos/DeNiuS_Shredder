@@ -1,50 +1,56 @@
 static class RegexStrings
 {
-    //TODO - Change the getter and setter so that these objects are created by default ( or directly, using '=' ) and get rid of constructor.
-    public static List<Regex> AzureOrMicrosoftRegexList { get; private set; }
-    public static List<Regex> AWSServiceRegexList { get; private set; }
-    public static List<Regex> AWSRegionRegexList { get; private set; }
-    public static List<Regex> GCPRegexList { get; private set; }
-    public static List<Regex> PaaSProvidersRegexList { get; private set; }
-    public static List<Regex> CDNsRegexList { get; private set; }
-
-    public RegexStrings()
+    public static ImmutableList<Regex> AzureOrMicrosoftRegexList
     {
-        AzureOrMicrosoftRegexList = GenerateRegexList(GenerateRegexAttributes(AzureOrMicrosoftDomainsList));
-        AWSServiceRegexList = GenerateRegexList(GenerateRegexAttributes(AWSServiceDomainsList));
-        AWSRegionRegexList = GenerateRegexList(GenerateRegexAttributes(AWSRegionDomainsList));
-        GCPRegexList = GenerateRegexList(GenerateRegexAttributes(GCPDomainsList));
-        PaaSProvidersRegexList = GenerateRegexList(GenerateRegexAttributes(PaaSProvidersDomainsList));
-        CDNsRegexList = GenerateRegexList(GenerateRegexAttributes(CDNDomainsList));
+        get { return AzureOrMicrosoftRegexList; }
+        set { GenerateRegexList(AzureOrMicrosoftRegexSearchStringList); }
     }
 
-    // TODO - Change to use generated attributes, then do the regex split on that speciufically and only - call regex.split(stringtosearch, regattributeitem) for it so that it's cached.
-    private static List<GeneratedRegexAttribute> GenerateRegexAttributes(List<string> regexAttributeList)
+    public static ImmutableList<Regex> AWSServiceRegexList
     {
-        List<GeneratedRegexAttribute> localRegexAttributeList = new List<GeneratedRegexAttribute>();
-
-        foreach (string regexPattern in regexAttributeList)
-        {
-            localRegexAttributeList.Add(new GeneratedRegexAttribute(regexPattern, RegexOptions.CultureInvariant | RegexOptions.RightToLeft));
-        }
-
-        return localRegexAttributeList;
+        get { return AWSServiceRegexList; }
+        set { GenerateRegexList(AWSServiceRegexSearchStringList); }
     }
 
-    private static List<Regex> GenerateRegexList(List<GeneratedRegexAttribute> regexAttributeList)
+    public static ImmutableList<Regex> AWSRegionRegexList
     {
-        List<Regex> localCompiledRegexList = new List<Regex>();
+        get { return AWSRegionRegexList; }
+        set { GenerateRegexList(AWSRegionRegexSearchStringList); }
+    }
 
-        foreach (GeneratedRegexAttribute generatedAttribute in regexAttributeList)
+    public static ImmutableList<Regex> GCPRegexList
+    {
+        get { return GCPRegexList; }
+        set { GenerateRegexList(GCPRegexSearchStringList); }
+    }
+
+    public static ImmutableList<Regex> PaaSProvidersRegexList
+    {
+        get { return PaaSProvidersRegexList; }
+        set { GenerateRegexList(PaaSProvidersRegexSearchStringList); }
+    }
+
+    public static ImmutableList<Regex> CDNsRegexList
+    {
+        get { return CDNsRegexList; }
+        set { GenerateRegexList(CDNRegexSearchStringList); }
+    }
+
+    private static ImmutableList<Regex> GenerateRegexList(List<string> regexSearchStringList)
+    {
+        List<Regex> localCompiledRegexList = new();
+
+        foreach (string regexPattern in regexSearchStringList)
         {
+            GeneratedRegexAttribute generatedAttribute = new(regexPattern, RegexOptions.CultureInvariant | RegexOptions.RightToLeft);
             localCompiledRegexList.Add(new Regex(generatedAttribute.Pattern, generatedAttribute.Options));
         }
 
-        return localCompiledRegexList;
+        return localCompiledRegexList.ToImmutableList();
     }
 
-    //TODO - Move these to the start of the file (treat them as variables, in effect) and condense so that multiples are on each line (visual clairty).
-    private static readonly List<string> AzureOrMicrosoftDomainsList =
+    //TODO - Move these to the start of the file (treat them as variables, in effect) and condense so that multiples are on each line (visual clarity).
+    private static readonly List<string> AzureOrMicrosoftRegexSearchStringList =
     [
         @"\.aadrm\.com$",
         @"\.ajax\.aspnetcdn\.com$",
@@ -134,7 +140,7 @@ static class RegexStrings
         @"\.yammer\.com$",
         @"\.yammerusercontent\.com$"
     ];
-    private static readonly List<string> AWSServiceDomainsList =
+    private static readonly List<string> AWSServiceRegexSearchStringList =
     [
         @"\.amazonaws\.com$",
         @"\.amazonaws\.com\.cn$",
@@ -165,7 +171,7 @@ static class RegexStrings
         @"\.elb\.amazonaws\.com$",
         @"\.elb\.api\.aws$"
     ];
-    private static readonly List<string> AWSRegionDomainsList =
+    private static readonly List<string> AWSRegionRegexSearchStringList =
     [
         @"\.af-south-1",
         @"\.ap-east-1",
@@ -199,7 +205,7 @@ static class RegexStrings
         @"\.us-west-1",
         @"\.us-west-2"
     ];
-    private static readonly List<string> GCPDomainsList =
+    private static readonly List<string> GCPRegexSearchStringList =
     [
         @"\.appspot\.com$",
         @"\.assets\.onestore\.ms$",
@@ -217,7 +223,7 @@ static class RegexStrings
         @"\.youtube\.com$",
         @"\.ytimg\.com$"
     ];
-    private static readonly List<string> PaaSProvidersDomainsList = [
+    private static readonly List<string> PaaSProvidersRegexSearchStringList = [
         @"\.000webhostapp\.com$",
         @"\.acompli\.net$",
         @"\.adobeaemcloud\.com$",
@@ -275,7 +281,7 @@ static class RegexStrings
         @"\.vercel\.app$",
         @"\.zoho\.com$",
     ];
-    private static readonly List<string> CDNDomainsList = [
+    private static readonly List<string> CDNRegexSearchStringList = [
         @"\.akamai-staging\.net$",
         @"\.akamai\.net$",
         @"\.akamaiedge-staging\.net$",
