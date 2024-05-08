@@ -1,39 +1,19 @@
 static class RegexStrings
 {
-    public static ImmutableList<Regex> AzureOrMicrosoftRegexList
-    {
-        get { return AzureOrMicrosoftRegexList; }
-        set { GenerateRegexList(AzureOrMicrosoftRegexSearchStringList); }
-    }
+    public static ImmutableList<Regex> MicrosoftRegexList { get; private set; }
+    public static ImmutableList<Regex> AWSServiceRegexList { get; private set; }
+    public static ImmutableList<Regex> GCPRegexList { get; private set; }
+    public static ImmutableList<Regex> PaaSProvidersRegexList { get; private set; }
+    public static ImmutableList<Regex> CDNsRegexList { get; private set; }
 
-    public static ImmutableList<Regex> AWSServiceRegexList
+    static RegexStrings()
     {
-        get { return AWSServiceRegexList; }
-        set { GenerateRegexList(AWSServiceRegexSearchStringList); }
-    }
-
-    public static ImmutableList<Regex> AWSRegionRegexList
-    {
-        get { return AWSRegionRegexList; }
-        set { GenerateRegexList(AWSRegionRegexSearchStringList); }
-    }
-
-    public static ImmutableList<Regex> GCPRegexList
-    {
-        get { return GCPRegexList; }
-        set { GenerateRegexList(GCPRegexSearchStringList); }
-    }
-
-    public static ImmutableList<Regex> PaaSProvidersRegexList
-    {
-        get { return PaaSProvidersRegexList; }
-        set { GenerateRegexList(PaaSProvidersRegexSearchStringList); }
-    }
-
-    public static ImmutableList<Regex> CDNsRegexList
-    {
-        get { return CDNsRegexList; }
-        set { GenerateRegexList(CDNRegexSearchStringList); }
+        Console.WriteLine("Regex search strings are being generated.");
+        MicrosoftRegexList = GenerateRegexList(MicrosoftRegexSearchStringList);
+        AWSServiceRegexList = GenerateRegexList(AWSRegexSearchStringList);
+        GCPRegexList = GenerateRegexList(GCPRegexSearchStringList);
+        PaaSProvidersRegexList = GenerateRegexList(PaaSProvidersRegexSearchStringList);
+        CDNsRegexList = GenerateRegexList(CDNRegexSearchStringList);
     }
 
     private static ImmutableList<Regex> GenerateRegexList(List<string> regexSearchStringList)
@@ -50,13 +30,12 @@ static class RegexStrings
     }
 
     //TODO - Move these to the start of the file (treat them as variables, in effect) and condense so that multiples are on each line (visual clarity).
-    private static readonly List<string> AzureOrMicrosoftRegexSearchStringList =
+    private static readonly List<string> MicrosoftRegexSearchStringList =
     [
         @"\.aadrm\.com$",
         @"\.ajax\.aspnetcdn\.com$",
         @"\.aka\.ms$",
-        @"\.appex-rf\.msn\.com$",
-        @"\.appex\.bing\.com$",
+        @"\.appex(-rf\.msn|\.bing)\.com$",
         @"\.assets-yammer\.com$",
         @"\.auth\.gfx\.ms$",
         @"\.autologon\.microsoftazuread-sso\.com$",
@@ -72,8 +51,7 @@ static class RegexStrings
         @"\.ecn\.dev\.virtualearth\.net$",
         @"\.linkedin\.com$",
         @"\.live\.com$",
-        @"\.login\.microsoftonline-p\.com$",
-        @"\.login\.windows-ppe\.net$",
+        @"\.login\.(microsoftonline-p\.com|windows-ppe\.net)$",
         @"\.lync\.com$",
         @"\.mem\.gfx\.ms$",
         @"\.microsoft$",
@@ -88,12 +66,10 @@ static class RegexStrings
         @"\.partnerservices\.getmicrosoftkey\.com$",
         @"\.phonefactor\.net$",
         @"\.portal\.cloudappsecurity\.com$",
-        @"\.powerapps\.com$",
-        @"\.powerautomate\.com$",
+        @"\.(powerapps|powerautomate)\.com$",
         @"\.prod\.msocdn\.com$",
         @"\.protection\.outlook\.com$",
-        @"\.sharepoint\.com$",
-        @"\.sharepointonline\.com$",
+        @"\.sharepoint(\.com|online\.com)$",
         @"\.shellprod\.msocdn\.com$",
         @"\.skype\.com$",
         @"\.svc\.ms$",
@@ -108,19 +84,15 @@ static class RegexStrings
         @"\.wus-www\.sway-(cdn|extensions)\.com$",
         @"\.yammer(usercontent)?\.com$"
     ];
-    private static readonly List<string> AWSServiceRegexSearchStringList =
+    private static readonly List<string> AWSRegexSearchStringList =
     [
-        @"\.(amazon(aws\.com\.cn|cognito\.com|aws\.com)|elb|ec2|autoscaling|elasticmapreduce)\.(amazonaws\.com|api\.aws)$",
-        @"\.api\.aws$",
-        @"\.aws(apps|cloud(front)?|dns|edge|educate|globalaccelerator|mp|personalize|static|stepfunctions)?\.com$",
-        @"\.cloudfront\.net$",
-        @"\.cloudfunctions\.net$",
-        @"\.elasticbeanstalk\.com$",
-        @"\.sagemaker\.(aws|com\.cn)$",
-    ];
-    private static readonly List<string> AWSRegionRegexSearchStringList =
-    [
-        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))$"
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.(amazon(aws\.com\.cn|cognito\.com|aws\.com)|elb|ec2|autoscaling|elasticmapreduce)\.(amazonaws\.com|api\.aws)$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.api\.aws$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.aws(apps|cloud(front)?|dns|edge|educate|globalaccelerator|mp|personalize|static|stepfunctions)?\.com$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.cloudfront\.net$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.cloudfunctions\.net$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.elasticbeanstalk\.com$",
+        @"\.(af-south-1|ap-(east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(central-1|west-1)|eu-(central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(central-1|south-1)|sa-east-1|us-(east-[1-2]|gov-(east-1|west-1)|west-[1-2]))\.sagemaker\.(aws|com\.cn|\.com)$",
     ];
     private static readonly List<string> GCPRegexSearchStringList =
     [
@@ -148,11 +120,7 @@ static class RegexStrings
         @"\.caspio\.com$",
         @"\.cfapps\.eu10\.hana\.ondemand\.com$",
         @"\.circleci\.com$",
-        @"\.cloud\.ibm\.com$",
-        @"\.cloud\.rackspace\.com$",
-        @"\.cloudaccess\.host$",
-        @"\.cloudbees\.com$",
-        @"\.cloudfoundry\.org$",
+        @"\.(cloud\.ibm\.com|cloud\.rackspace\.com|cloudaccess\.host|cloudbees\.com|cloudfoundry\.org)$",
         @"\.digitaloceanspaces\.com$",
         @"\.docker\.io$",
         @"\.entrust\.net$",
@@ -199,13 +167,11 @@ static class RegexStrings
         @"\.anankecdn\.com\.br$",
         @"\.bo\.lt$",
         @"\.cachefly\.net$",
-        @"\.cdn77\.(com|net|org)$"
+        @"\.cdn77\.(com|net|org)$",
         @"\.cloudflare\.com$",
         @"\.cloudfront\.net$",
         @"\.doubleclick\.net$",
-        @"\.edgecastcdn\.net$",
-        @"\.edgekey\.net$",
-        @"\.edgesuite\.net$",
+        @"\.(edgecastcdn|edgekey|edgesuite)\.net$",
         @"\.fastlylb\.net$",
         @"\.fpbns\.net$",
         @"\.gslb\.taobao\.com$",
@@ -222,12 +188,8 @@ static class RegexStrings
         @"\.tauk0\.com$",
         @"\.tl88\.net$",
         @"\.transactcdn\.net$",
-        @"\.vox-cdn\.com$",
-        @"\.vox-cdn\.net$",
-        @"\.voxcdn\.com$",
-        @"\.voxmedia\.com$",
-        @"\.yahoo\.",
-        @"\.yahooapis\.com$",
+        @"\.vox(-cdn(\.com|\.net)|cdn\.com|media\.com)$",
+        @"\.yahoo(\.|apis\.com)$",
         @"\.yimg\.",
         @"\.yottaa\.net$",
         @"\.ytimg\.com$"
