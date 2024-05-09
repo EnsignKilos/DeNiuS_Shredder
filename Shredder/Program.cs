@@ -5,7 +5,7 @@ Console.Clear();
 Console.WriteLine($"Loading file at: {dnsFQDNFilePath}...");
 try
 {
-    //TODO: Seperate and create a new method for laoding specifically and seperate this from the constructor.
+    //TODO: Seperate and create a new method for loading specifically and seperate this from the constructor.
     DNSListLoad loadedDNSFileHashset = new(dnsFQDNFilePath);
 }
 catch (DNSListLoadException dnsLoadListException)
