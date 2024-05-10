@@ -11,11 +11,17 @@ static class RegexStringGenerator
     {
         Console.WriteLine("Regex search strings are being generated.");
         MicrosoftRegexList = GenerateRegexList(MicrosoftRegexSearchStringList);
+        Console.WriteLine("Microsoft, Done!");
         AWSServiceRegexList = GenerateRegexList(AWSRegexSearchStringList);
+        Console.WriteLine("AWS, Done!");
         GCPRegexList = GenerateRegexList(GCPRegexSearchStringList);
+        Console.WriteLine("GCP, Done!");
         DigitalOceanRegexList = GenerateRegexList(DigitalOceanRegexSearchStringList);
+        Console.WriteLine("DigitalOcean, Done!");
         PaaSProvidersRegexList = GenerateRegexList(PaaSProvidersRegexSearchStringList);
+        Console.WriteLine("PaaS Providers, Done!");
         CDNsRegexList = GenerateRegexList(CDNRegexSearchStringList);
+        Console.WriteLine("CDNs, Done!\nRegex search strings generation complete.");
     }
 
     private static ImmutableList<Regex> GenerateRegexList(List<string> regexSearchStringList)
@@ -94,6 +100,7 @@ static class RegexStringGenerator
         @"\.(?:(?:af-south-1|ap-(?:east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(?:central-1|west-1)|eu-(?:central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(?:central-1|south-1)|sa-east-1|us-(?:east-[1-2]|gov-(?:east-1|west-1)|west-[1-2]))\.)?cloudfunctions\.net$",
         @"\.(?:(?:af-south-1|ap-(?:east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(?:central-1|west-1)|eu-(?:central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(?:central-1|south-1)|sa-east-1|us-(?:east-[1-2]|gov-(?:east-1|west-1)|west-[1-2]))\.)?elasticbeanstalk\.com$",
         @"\.(?:(?:af-south-1|ap-(?:east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(?:central-1|west-1)|eu-(?:central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(?:central-1|south-1)|sa-east-1|us-(?:east-[1-2]|gov-(?:east-1|west-1)|west-[1-2]))\.)?sagemaker\.(?:aws|com\.cn|\.com)$",
+        @"\.cloudfront\.net$",
     ];
     private static readonly List<string> GCPRegexSearchStringList =
     [
@@ -167,19 +174,19 @@ static class RegexStringGenerator
         @"\.bo\.lt$",
         @"\.cachefly\.net$",
         @"\.cdn77\.(?:com|net|org)$",
-        @"\.cloudflare\.com$",
-        @"\.cloudfront\.net$",
         @"\.cloudflare(?:-dns|-net|-ipfs|insights|stream|status|workers)?\.com$",
-        @"\.fastly(?:-lb|-cdn|-pic|-terrarium|-insights)?\.net$|\.fastly(?:-cdn|-pic|-terrarium|-insights)?\.com$",
-        @"\.maxcdn(?:-edge|-ssl|-cdn|-dns|-logs|-mail|-status|-sv|-tickets|-tools|-zendesk|-zopim)?\.com$"
+        @"\.fastly(?:-lb|-cdn|-pic|-terrarium|-insights)?\.net$|\.fastly(?:-cdn|-pic|-terrarium|-insights\.com)?$",
+        @"\.maxcdn(?:-edge|-ssl|-cdn|-dns|-logs|-mail|-status|-sv|-tickets|-tools|-zendesk|-zopim)?\.com$",
         @"\.doubleclick\.net$",
         @"\.(?:edgecastcdn|edgekey|edgesuite)\.net$",
         @"\.fastlylb\.net$",
+        @"\.fbcdn\.net$|\.fbsbx\.com$",
         @"\.fpbns\.net$",
         @"\.gslb\.taobao\.com$",
         @"\.gvt1\.com$",
         @"\.hwcdn\.net$",
         @"\.llnwd\.net$",
+        @"\.lxdns\.(com|net|org|pw)$",
         @"\.netdna-cdn\.com$",
         @"\.netlify\.com$",
         @"\.nocookie\.net$",
@@ -192,7 +199,7 @@ static class RegexStringGenerator
         @"\.transactcdn\.net$",
         @"\.vox(?:-cdn(?:\.com|\.net)|cdn\.com|media\.com)$",
         @"\.yahoo(?:\.|apis\.com)$",
-        @"\.yimg\.",
+        @"\.yimg\.com$",
         @"\.yottaa\.net$",
         @"\.ytimg\.com$"
     ];
