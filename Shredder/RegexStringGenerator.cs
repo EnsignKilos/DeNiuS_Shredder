@@ -39,6 +39,8 @@ static class RegexStringGenerator
 
     private static readonly List<string> MicrosoftRegexSearchStringList =
     [
+        @"\.a(?:adcdn|adrm|jax|ka|ppex|ssets-yammer|uth|utologon|zmk8s)\.com$",
+        @"\.azure$",
         @"\.aadrm\.com$",
         @"\.ajax\.aspnetcdn\.com$",
         @"\.aka\.ms$",
@@ -101,6 +103,8 @@ static class RegexStringGenerator
         @"\.(?:(?:af-south-1|ap-(?:east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(?:central-1|west-1)|eu-(?:central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(?:central-1|south-1)|sa-east-1|us-(?:east-[1-2]|gov-(?:east-1|west-1)|west-[1-2]))\.)?elasticbeanstalk\.com$",
         @"\.(?:(?:af-south-1|ap-(?:east-1|northeast-[1-3]|south-[1-2]|southeast-[1-4])|ca-(?:central-1|west-1)|eu-(?:central-[1-2]|north-1|south-[1-2]|west-[1-3])|il-central-1|me-(?:central-1|south-1)|sa-east-1|us-(?:east-[1-2]|gov-(?:east-1|west-1)|west-[1-2]))\.)?sagemaker\.(?:aws|com\.cn|\.com)$",
         @"\.cloudfront\.net$",
+        @"\.amazon$",
+        
     ];
     private static readonly List<string> GCPRegexSearchStringList =
     [
@@ -207,5 +211,24 @@ static class RegexStringGenerator
     private static readonly List<string> DigitalOceanRegexSearchStringList =
     [
     @"\.(?:digitaloceanspaces\.com|do-(?:usercontent|userfiles|cloud|dns|cdn|api|apis|ssl|secure|static|db|dbfiles|webfiles|webcontent|cdnfiles|cdncontent|sslfiles|sslcontent|securefiles|securecontent|staticfiles|staticcontent)\.com)$",
+    ];
+
+    private static readonly List<string> SecondLevelDomainParts = [
+        @"(?:\.co$)",
+        @"(?:\.com$)",
+        @"(?:\.net$)",
+        @"(?:\.org$)",
+        @"(?:\.io$)",
+        @"(?:\.app$)",
+        @"(?:\.dev$)",
+        @"(?:\.cloud$)",
+        @"(?:\.tech$)",
+        @"(?:\.online$)",
+        @"(?:\.site$)",
+        @"(?:\.website$)",
+        @"(?:\.store$)",
+        @"(?:\.shop$)",
+        @"(?:\.blog$)",
+
     ];
 }
