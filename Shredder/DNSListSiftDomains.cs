@@ -1,4 +1,4 @@
-class DNSListSiftDomains
+class DNSListSplitRegexList
 {
     public HashSet<string> SiftedCanonicalNames { get; private set; }
     public HashSet<string> SiftedPaaSProviderDomains { get; private set; }
@@ -7,7 +7,7 @@ class DNSListSiftDomains
     public HashSet<string> SiftedAzureOrMicrosoftDomains { get; private set; }
     public HashSet<string> SiftedCDNDomains { get; private set; }
 
-    public DNSListSiftDomains(ImmutableHashSet<string> loadedDNSFileHashset)
+    public DNSListSplitRegexList(ImmutableHashSet<string> loadedDNSFileHashset)
     {
         SiftedCanonicalNames = [];
         SiftedTopLevelDomains = [];

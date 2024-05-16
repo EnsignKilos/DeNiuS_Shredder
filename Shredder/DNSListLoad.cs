@@ -1,10 +1,10 @@
 class DNSListLoad(string dnsFQDNFilePath)
 {
-    public ImmutableHashSet<string> FileImmutableHashSet { get; private set; } = CreateFileHashSet(dnsFQDNFilePath);
+    public HashSet<string> FileHashSet { get; private set; } = CreateFileHashSet(dnsFQDNFilePath);
 
-    private static ImmutableHashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
+    private static HashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
     {
-        ImmutableHashSet<string>.Builder builder = ImmutableHashSet.CreateBuilder<string>();
+        HashSet<string> fileHashsetTemp = new HashSet<string>();
 
         try
         {
@@ -12,7 +12,7 @@ class DNSListLoad(string dnsFQDNFilePath)
             using StreamReader reader = new(dnsFQDNFilePath);
             while ((line = reader.ReadLine()) != null)
             {
-                builder.Add(line.ToLowerInvariant());
+                fileHashsetTemp.Add(line.ToLowerInvariant());
             }
         }
 
@@ -48,6 +48,6 @@ class DNSListLoad(string dnsFQDNFilePath)
             throw new DNSListLoadException();
         }
 
-        return builder.ToImmutableHashSet();
+        return fileHashsetTemp;
     }
 }
