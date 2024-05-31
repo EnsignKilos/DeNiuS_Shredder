@@ -1,6 +1,4 @@
-﻿using System.Security;
-
-string dnsFQDNFilePath = "C:\\Tools\\DNSList\\DNSlist.txt";
+﻿string dnsFQDNFilePath = "C:\\Tools\\DNSList\\DNSlist.txt";
 //Console.Clear();
 
 // Try to load and check file
@@ -23,7 +21,7 @@ Console.WriteLine("\nLoading regexlists....");
 RegexStringGenerator.CreateRegexStringLists();
 Console.WriteLine("\nDone!");
 
-//Start shredding list - Use DNSListSplitRegexList   --- WHy the hell is this return a number???
+//Start shredding list - Use DNSListSplitRegexList   --- Why the hell is this return a number???
 foreach (string dnsEntry in loadedDNSFileHashset.FileHashSet)
 {
     foreach (Regex regexPattern in RegexStringGenerator.GCPRegexList)
