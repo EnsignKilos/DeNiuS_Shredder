@@ -24,12 +24,12 @@ Console.WriteLine("\nDone!");
 //Start shredding list - Use DNSListSplitRegexList   --- Why the hell is this return a number???
 foreach (string dnsEntry in loadedDNSFileHashset.FileHashSet)
 {
-    foreach (Regex regexPattern in RegexStringGenerator.GCPRegexList)
+    foreach (Regex regexPattern in RegexStringGenerator.AWSServiceRegexList)
     {
-        var parts = regexPattern.Split(dnsEntry);
-        foreach (string part in parts)
+        if (regexPattern.IsMatch(dnsEntry))
         {
-            Console.WriteLine(part);
+            Console.WriteLine(dnsEntry);
+            break;
         }
     }
 }

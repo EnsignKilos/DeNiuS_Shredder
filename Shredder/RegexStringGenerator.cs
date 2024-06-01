@@ -1,11 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 static class RegexStringGenerator
 {
-    public static List<Regex> MicrosoftRegexList { get; private set; }
-    public static List<Regex> AWSServiceRegexList { get; private set; }
-    public static List<Regex> GCPRegexList { get; private set; }
-    public static List<Regex> PaaSProvidersRegexList { get; private set; }
-    public static List<Regex> CDNsRegexList { get; private set; }
-    public static List<Regex> DigitalOceanRegexList { get; private set; }
+    public static List<Regex>? MicrosoftRegexList { get; private set; }
+    public static List<Regex>? AWSServiceRegexList { get; private set; }
+    public static List<Regex>? GCPRegexList { get; private set; }
+    public static List<Regex>? PaaSProvidersRegexList { get; private set; }
+    public static List<Regex>? CDNsRegexList { get; private set; }
+    public static List<Regex>? DigitalOceanRegexList { get; private set; }
 
     public static void CreateRegexStringLists()
     {
