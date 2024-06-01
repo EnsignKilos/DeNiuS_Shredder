@@ -1,6 +1,6 @@
 class DNSEntryListSortUtility(HashSet<string> loadedFile)
 {
-    public DNSEntryListSortUtility()
+    public List<ProcessedDNSEntryRecord> SortLoadedFileData()
     {
         DNSListSort();
     }
@@ -8,28 +8,14 @@ class DNSEntryListSortUtility(HashSet<string> loadedFile)
     private static void DNSListSort()
     {
         List<ProcessedDNSEntryRecord> processedEntries = new List<ProcessedDNSEntryRecord>();
-
-        Parallel.ForEach(loadedFile, entry =>
+        foreach (string entry in loadedFile)
         {
-            // Perform multiple regex splits
-            string[] split1 = Regex.Split(entry, "regexPattern1");
-            string[] split2 = Regex.Split(entry, "regexPattern2");
-            string[] split3 = Regex.Split(entry, "regexPattern3");
-
-            // Create a ProcessedDNSEntryRecord and store the elements of the regex split
-            ProcessedDNSEntryRecord processedEntry = new ProcessedDNSEntryRecord
-            {
-                Split1Elements = split1,
-                Split2Elements = split2,
-                Split3Elements = split3
-            };
-
-            lock (processedEntries)
-            {
-                processedEntries.Add(processedEntry);
-            }
-        });
-
-        // Use the processedEntries list as needed
+            string[] entryParts = entry.Split('.');
+            string topLevelDomain = entryParts[^1];
+            List<string> subDomainParts = entryParts.ToList();
+            subDomainParts.RemoveAt(subDomainParts.Count - 1);
+            ProcessedDNSEntryRecord processedEntry = new ProcessedDNSEntryRecord(entry, "A", topLevelDomain, subDomainParts, subDomainParts.Count);
+            processedEntries.Add(processedEntry);
+        }
     }
 }
