@@ -1,29 +1,24 @@
-using System.ComponentModel.DataAnnotations;
-
 static class RegexStringGenerator
 {
-    public static List<Regex>? MicrosoftRegexList { get; private set; }
-    public static List<Regex>? AWSServiceRegexList { get; private set; }
-    public static List<Regex>? GCPRegexList { get; private set; }
-    public static List<Regex>? PaaSProvidersRegexList { get; private set; }
-    public static List<Regex>? CDNsRegexList { get; private set; }
-    public static List<Regex>? DigitalOceanRegexList { get; private set; }
+    public static List<Regex> MicrosoftRegexList { get; private set; } 
+    public static List<Regex> AWSServiceRegexList { get; private set; }
+    public static List<Regex> GCPRegexList { get; private set; }
+    public static List<Regex> PaaSProvidersRegexList { get; private set; }
+    public static List<Regex> CDNsRegexList { get; private set; }
+    public static List<Regex> DigitalOceanRegexList { get; private set; }
 
-    public static void CreateRegexStringLists()
+    static RegexStringGenerator()
     {
-        Console.WriteLine("Regex search strings are being generated.");
+        var timer = new Stopwatch();
+        timer.Start();
         MicrosoftRegexList = GenerateRegexList(MicrosoftRegexSearchStringList);
-        Console.WriteLine("Microsoft, Done!");
         AWSServiceRegexList = GenerateRegexList(AWSRegexSearchStringList);
-        Console.WriteLine("AWS, Done!");
         GCPRegexList = GenerateRegexList(GCPRegexSearchStringList);
-        Console.WriteLine("GCP, Done!");
         DigitalOceanRegexList = GenerateRegexList(DigitalOceanRegexSearchStringList);
-        Console.WriteLine("DigitalOcean, Done!");
         PaaSProvidersRegexList = GenerateRegexList(PaaSProvidersRegexSearchStringList);
-        Console.WriteLine("PaaS Providers, Done!");
         CDNsRegexList = GenerateRegexList(CDNRegexSearchStringList);
-        Console.WriteLine("CDNs, Done!\nRegex search strings generation complete.");
+        timer.Stop();
+        Console.WriteLine($"RegexStringGenerator initialized in {timer.ElapsedMilliseconds}ms");
     }
 
     private static List<Regex> GenerateRegexList(List<string> regexSearchStringList)
