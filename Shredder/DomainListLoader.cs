@@ -1,11 +1,10 @@
-class DNSListLoad(string dnsFQDNFilePath)
+class DomainListLoader(string dnsFQDNFilePath)
 {
-    public HashSet<string> FileHashSet { get; private set; } = CreateFileHashSet(dnsFQDNFilePath);
+    public HashSet<string> LoadedFile { get; private set; } = CreateFileHashSet(dnsFQDNFilePath);
 
     private static HashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
     {
         HashSet<string> fileHashsetTemp = new HashSet<string>();
-
         try
         {
             string? line;
@@ -15,39 +14,40 @@ class DNSListLoad(string dnsFQDNFilePath)
                 fileHashsetTemp.Add(line.ToLowerInvariant());
             }
         }
-
         catch (DirectoryNotFoundException)
         {
             Console.WriteLine("Directory Not Found");
-            throw new DNSListLoadException();
+            throw new DNSListLoadError();
         }
-
         catch (FileNotFoundException)
         {
             Console.WriteLine("File Doesn't Exist");
-            throw new DNSListLoadException();
+            throw new DNSListLoadError();
         }
-
         catch (PathTooLongException)
         {
             Console.WriteLine("Path Too Long");
-            throw new DNSListLoadException();
-
+            throw new DNSListLoadError();
         }
-
         catch (OutOfMemoryException)
         {
             Console.WriteLine("Download more WAM");
-            throw new DNSListLoadException();
-
+            throw new DNSListLoadError();
         }
-
         catch (Exception ex)
         {
             Console.WriteLine($"Failed to load {dnsFQDNFilePath} - {ex.Message}");
-            throw new DNSListLoadException();
+            throw new DNSListLoadError();
         }
 
         return fileHashsetTemp;
+    }
+}
+class DNSListLoadError : Exception
+{
+    public DNSListLoadError()
+    : base("Failed to do my job :(")
+    {
+
     }
 }
