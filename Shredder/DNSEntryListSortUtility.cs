@@ -2,20 +2,29 @@ class DNSEntryListSortUtility(HashSet<string> loadedFile)
 {
     public List<ProcessedDNSEntryRecord> SortLoadedFileData()
     {
-        DNSListSort();
+        return DNSListSort(loadedFile);
     }
 
-    private static void DNSListSort()
+    private static List<ProcessedDNSEntryRecord> DNSListSort(HashSet<string> loadedFile)
     {
         List<ProcessedDNSEntryRecord> processedEntries = new List<ProcessedDNSEntryRecord>();
         foreach (string entry in loadedFile)
         {
-            string[] entryParts = entry.Split('.');
-            string topLevelDomain = entryParts[^1];
-            List<string> subDomainParts = entryParts.ToList();
-            subDomainParts.RemoveAt(subDomainParts.Count - 1);
-            ProcessedDNSEntryRecord processedEntry = new ProcessedDNSEntryRecord(entry, "A", topLevelDomain, subDomainParts, subDomainParts.Count);
-            processedEntries.Add(processedEntry);
+            string fqdn = entry;
+            string type;
+            string topLevelDomain;
+            List<string> subDomainParts;
+            int subDomainPartLength;
+
+
+
+            ProcessedDNSEntryRecord processedEntry = new ProcessedDNSEntryRecord(fqdn, type, topLevelDomain, subDomainParts, subDomainPartLength);
         }
+        return processedEntries;
     }
 }
+
+
+
+
+// public record ProcessedDNSEntryRecord(string FQDN, string Type, string TopLevelDomain, List<string> SubDomainParts, int SubDomainPartLength)
