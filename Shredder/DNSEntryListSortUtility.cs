@@ -4,7 +4,7 @@ public class DNSEntryListSortUtility
     {
         string type = string.Empty;
         string topLevelDomain = string.Empty;
-        List<string> subDomainParts = new List<string>();
+        HashSet<string> subDomainParts = new HashSet<string>();
         int subDomainPartLength = 0;
 
         // Define a local function to process regex lists in parallel
@@ -17,14 +17,14 @@ public class DNSEntryListSortUtility
                     type = typeName;
                     var matches = regexString.Split(entry);
                     topLevelDomain = matches[^1];
-                    subDomainParts = new List<string>(matches[1..^2]);
+                    subDomainParts = new HashSet<string>(matches[1..^2]);
                     subDomainPartLength = subDomainParts.Count;
                     state.Stop();
                 }
             });
         }
 
-        // Process each regex list in parallel
+        // Process each regex list in parallel - starts ms then looks for hits elsewhere if no type is set yet (loop will break on match).
         ProcessRegexListParallel(RegexStringGenerator.MicrosoftRegexList, "Microsoft");
         if (string.IsNullOrEmpty(type))
             ProcessRegexListParallel(RegexStringGenerator.GCPRegexList, "Google");
@@ -36,12 +36,13 @@ public class DNSEntryListSortUtility
             ProcessRegexListParallel(RegexStringGenerator.DigitalOceanRegexList, "DigitalOcean");
         if (string.IsNullOrEmpty(type))
             ProcessRegexListParallel(RegexStringGenerator.PaaSProvidersRegexList, "PaaSProviders");
-        else Console.WriteLine("No match found for: " + entry);
+
+        else Console.WriteLine("No match found for: " + entry + " in any of the regex lists, defaulting to Unknown Type and 2 parts for subdomain.");
         {
             type = "Unknown";
-            var splitEntry = new List<string>(entry.Split('.', StringSplitOptions.RemoveEmptyEntries));
-            topLevelDomain = splitEntry[^2..^1];
-            subDomainParts = ;
+            var splitEntry = entry.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            topLevelDomain = string.Join(".", splitEntry[^2..]);
+            subDomainParts = new HashSet<string>(splitEntry[..^2]);
             subDomainPartLength = 0;
         };
         Console.WriteLine($"FQDN: {entry} Type: {type}, Top Level Domain: {topLevelDomain}, Sub Domain Parts Count: {subDomainPartLength}");

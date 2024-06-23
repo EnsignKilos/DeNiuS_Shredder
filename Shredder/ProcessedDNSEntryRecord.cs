@@ -1,4 +1,4 @@
-public record ProcessedDNSEntryRecord(string FQDN, string Type, string TopLevelDomain, List<string> SubDomainParts, int SubDomainPartLength)
+public record ProcessedDNSEntryRecord(string FQDN, string Type, string TopLevelDomain, HashSet<string> SubDomainParts, int SubDomainPartLength)
 {
     [Required]
     public string FQDN { get; init; } = FQDN;
@@ -10,7 +10,7 @@ public record ProcessedDNSEntryRecord(string FQDN, string Type, string TopLevelD
     public string TopLevelDomain { get; init; } = TopLevelDomain;
 
     [Required]
-    public List<string> SubDomainParts { get; init; } = SubDomainParts;
+    public HashSet<string> SubDomainParts { get; init; } = SubDomainParts;
 
     [Required]
     public int SubDomainPartLength { get; init; } = SubDomainPartLength;
