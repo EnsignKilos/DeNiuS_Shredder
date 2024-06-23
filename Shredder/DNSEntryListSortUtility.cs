@@ -1,30 +1,50 @@
-class DNSEntryListSortUtility(HashSet<string> loadedFile)
+public class DNSEntryListSortUtility
 {
-    public List<ProcessedDNSEntryRecord> SortLoadedFileData()
+    public ProcessedDNSEntryRecord SortDNSEntry(string entry)
     {
-        return DNSListSort(loadedFile);
-    }
+        string type = string.Empty;
+        string topLevelDomain = string.Empty;
+        List<string> subDomainParts = new List<string>();
+        int subDomainPartLength = 0;
 
-    private static List<ProcessedDNSEntryRecord> DNSListSort(HashSet<string> loadedFile)
-    {
-        List<ProcessedDNSEntryRecord> processedEntries = new List<ProcessedDNSEntryRecord>();
-        foreach (string entry in loadedFile)
+        // Define a local function to process regex lists in parallel
+        void ProcessRegexListParallel(List<Regex> regexList, string typeName)
         {
-            string fqdn = entry;
-            string type;
-            string topLevelDomain;
-            List<string> subDomainParts;
-            int subDomainPartLength;
-
-
-
-            ProcessedDNSEntryRecord processedEntry = new ProcessedDNSEntryRecord(fqdn, type, topLevelDomain, subDomainParts, subDomainPartLength);
+            Parallel.ForEach(regexList, (regexString, state) =>
+            {
+                if (regexString.IsMatch(entry))
+                {
+                    type = typeName;
+                    var matches = regexString.Split(entry);
+                    topLevelDomain = matches[^1];
+                    subDomainParts = new List<string>(matches[1..^2]);
+                    subDomainPartLength = subDomainParts.Count;
+                    state.Stop();
+                }
+            });
         }
-        return processedEntries;
+
+        // Process each regex list in parallel
+        ProcessRegexListParallel(RegexStringGenerator.MicrosoftRegexList, "Microsoft");
+        if (string.IsNullOrEmpty(type))
+            ProcessRegexListParallel(RegexStringGenerator.GCPRegexList, "Google");
+        if (string.IsNullOrEmpty(type))
+            ProcessRegexListParallel(RegexStringGenerator.AWSServiceRegexList, "Amazon");
+        if (string.IsNullOrEmpty(type))
+            ProcessRegexListParallel(RegexStringGenerator.CDNsRegexList, "CDNServices");
+        if (string.IsNullOrEmpty(type))
+            ProcessRegexListParallel(RegexStringGenerator.DigitalOceanRegexList, "DigitalOcean");
+        if (string.IsNullOrEmpty(type))
+            ProcessRegexListParallel(RegexStringGenerator.PaaSProvidersRegexList, "PaaSProviders");
+        else Console.WriteLine("No match found for: " + entry);
+        {
+            type = "Unknown";
+            var splitEntry = new List<string>(entry.Split('.', StringSplitOptions.RemoveEmptyEntries));
+            topLevelDomain = splitEntry[^2..^1];
+            subDomainParts = ;
+            subDomainPartLength = 0;
+        };
+        Console.WriteLine($"FQDN: {entry} Type: {type}, Top Level Domain: {topLevelDomain}, Sub Domain Parts Count: {subDomainPartLength}");
+            return new ProcessedDNSEntryRecord(entry, type, topLevelDomain, subDomainParts, subDomainPartLength);
     }
 }
-
-
-
-
-// public record ProcessedDNSEntryRecord(string FQDN, string Type, string TopLevelDomain, List<string> SubDomainParts, int SubDomainPartLength)
