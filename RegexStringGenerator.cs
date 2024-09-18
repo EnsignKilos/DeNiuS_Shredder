@@ -23,7 +23,7 @@ static class RegexStringGenerator
 
     private static List<Regex> GenerateRegexList(List<string> regexSearchStringList)
     {
-        List<Regex> localCompiledRegexList = new List<Regex>();
+        List<Regex> localCompiledRegexList = [];
 
         foreach (string regexPattern in regexSearchStringList)
         {
@@ -117,7 +117,8 @@ static class RegexStringGenerator
         @"(\.youtube\.com$)",
         @"(\.ytimg\.com)$"
     ];
-    private static readonly List<string> PaaSProvidersRegexSearchStringList = [
+    private static readonly List<string> PaaSProvidersRegexSearchStringList = 
+    [
         @"(\.000webhostapp\.com$)",
         @"(\.acompli\.net$)",
         @"(\.adobeaemcloud\.com$)",
@@ -169,7 +170,8 @@ static class RegexStringGenerator
         @"(\.vercel\.app$)",
         @"(\.zoho\.com$)",
     ];
-    private static readonly List<string> CDNRegexSearchStringList = [
+    private static readonly List<string> CDNRegexSearchStringList = 
+    [
         @"(\.akamai(?:staging|edge(?:-staging)?|hd(?:-staging)?|origin(?:-staging)?|technologies(?:\.com|\.fr)?|ized(?:-staging)?)?\.net$)",
         @"(\.anankecdn\.com\.br$)",
         @"(\.bo\.lt$)",

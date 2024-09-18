@@ -4,7 +4,7 @@ class DomainListLoader(string dnsFQDNFilePath)
 
     private static HashSet<string> CreateFileHashSet(string dnsFQDNFilePath)
     {
-        HashSet<string> fileHashsetTemp = new HashSet<string>();
+        HashSet<string> fileHashsetTemp = [];
         try
         {
             string? line;

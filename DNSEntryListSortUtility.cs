@@ -1,10 +1,10 @@
 public class DNSEntryListSortUtility
 {
-    public ProcessedDNSEntryRecord SortDNSEntry(string entry)
+    public static ProcessedDNSEntryRecord SortDNSEntry(string entry)
     {
         string type = string.Empty;
         string topLevelDomain = string.Empty;
-        HashSet<string> subDomainParts = new HashSet<string>();
+        HashSet<string> subDomainParts = [];
         int subDomainPartLength = 0;
 
         // Define a local function to process regex lists in parallel
